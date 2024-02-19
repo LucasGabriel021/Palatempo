@@ -1,0 +1,17 @@
+#campoDigitacao {
+    resize: none;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.border-sucess {
+    border-color: #9BCF53 !important;
+}
+
+.border-danger {
+    border-color: #D04848 !important;
+}
+
+#buttons button {
+    border-radius: 100%;
+}
