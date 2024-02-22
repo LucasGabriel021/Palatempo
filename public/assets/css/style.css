@@ -5,7 +5,12 @@
 }
 
 #telaInicial {
-    background: url(../img/bg_inicial.jpg) no-repeat center;
+    background: url(../img/background.jpg) no-repeat left;
+    background-size: cover;
+}
+
+#jogo {
+    background: url(../img/background_dois.jpg) no-repeat center;
     background-size: cover;
 }
 

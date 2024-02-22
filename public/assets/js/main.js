@@ -3,6 +3,7 @@
  */
 $(function() {
     atualizaFrase();
+    reiniciarJogo();
 });
 
 $("#inicarJogo").on("submit", function() {
@@ -11,10 +12,15 @@ $("#inicarJogo").on("submit", function() {
     $("#jogo").removeClass("hidden");
 });
 
+$("#btnVoltar").click(function() {
+    $("#jogo").addClass("hidden");
+    $("#telaInicial").removeClass("hidden");
+    reiniciarJogo();
+});
+
 /**
  * Variáveis globais
  */
-let frase = $("#fraseExemplo").text();
 let tempoInicial = parseInt($("#tempo").text());
 let campo = $("#campoDigitacao");
 
@@ -22,6 +28,7 @@ let campo = $("#campoDigitacao");
  * Funções
  */
 function atualizaFrase() {
+    let frase = $("#fraseExemplo").text();
     let qtdPalavras = frase.split(/\S+/).length - 1;
     $("#qtdPalavras").text(qtdPalavras);
 }
@@ -45,6 +52,7 @@ $("#campoDigitacao").focus(iniciarTemporizador);
 
 $("#campoDigitacao").on("input", function() {
     inicializarContadores();
+    let frase = $("#fraseExemplo").text();
     let textoDigitado = $("#campoDigitacao").val();
     let comparavel = frase.substr(0, textoDigitado.length);
     if(textoDigitado === comparavel) {
@@ -61,11 +69,7 @@ $("#campoDigitacao").on("input", function() {
     }
 });
 
-$("#btnDarkMode").click(function() {
-    $("body").toggleClass("bg-black");
-})
-
-$("#btnReiniciarJogo").click(function() {
+function reiniciarJogo() {
     $("#tempo").text(tempoInicial);
     campo.val("");
     campo.removeClass("disabled");
@@ -74,7 +78,7 @@ $("#btnReiniciarJogo").click(function() {
     campo.attr("disabled", false);
     $("#contadorPalavras").text("0");
     $("#contadorCaracteres").text("0");
-})
+}
 
 function inicializarContadores() {
     let contadorPalavras = campo.val().split(/\S+/).length - 1;
@@ -84,3 +88,10 @@ function inicializarContadores() {
     $("#contadorPalavras").text(contadorPalavras);
     $("#contadorCaracteres").text(contadorCaracteres);
 }
+
+$("#btnGerarFase").click(function() {
+    let numAleatorio = Math.floor(Math.random() * 10);
+    $("#fraseExemplo").text(frases[numAleatorio].frase);
+    $("#tempo").text(frases[numAleatorio].tempo);
+    atualizaFrase();
+});
