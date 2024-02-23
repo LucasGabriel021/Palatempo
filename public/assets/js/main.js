@@ -1,9 +1,20 @@
+let jogadores = [];
+
 /**
  * Evento de inicializar a frase
  */
 $(function() {
     atualizaFrase();
     reiniciarJogo();
+    const jogadoresString = localStorage.getItem("jogadores");
+    const jogadoresArray = JSON.parse(jogadoresString);
+    console.log(jogadoresArray.length);
+
+    $(jogadoresArray).each(function() {
+        // console.log(this.nome);
+        // console.log(this.palavras);
+        dadosPlacar(this.palavras, this.nome)
+    });
 });
 
 $("#inicarJogo").on("submit", function() {
@@ -40,10 +51,13 @@ function iniciarTemporizador() {
         tempoDigitacao--;
         $("#tempo").text(tempoDigitacao);
         if(tempoDigitacao < 1) {
+            let qtdPalavrasPlacar = $("#contadorPalavras").text();
+            let usuarioJogo = $("#usuario").val();
             campo.attr("disabled", true);
             campo.addClass("disabled");
             clearInterval(idIntervalo);
-            dadosPlacar();
+            dadosPlacar(qtdPalavrasPlacar, usuarioJogo);
+            salvarDados(qtdPalavrasPlacar, usuarioJogo);
         }
     }, 1000);
 }
@@ -68,6 +82,8 @@ $("#campoDigitacao").on("input", function() {
         campo.removeClass("border-danger");
     }
 });
+
+$("#btnReiniciarJogo").click(reiniciarJogo);
 
 function reiniciarJogo() {
     $("#tempo").text(tempoInicial);
@@ -95,3 +111,19 @@ $("#btnGerarFase").click(function() {
     $("#tempo").text(frases[numAleatorio].tempo);
     atualizaFrase();
 });
+
+function salvarDados(palavrasJogo, usuarioJogo) {
+    if(jogadoresArray.length > 10) {
+        localStorage.clear();
+    }
+    
+    let jogador = {
+        nome: usuarioJogo,
+        palavras: palavrasJogo
+    }
+
+    jogadores.push(jogador);
+
+    let jogadoresJson = JSON.stringify(jogadores);
+    localStorage.setItem("jogadores", jogadoresJson);
+}

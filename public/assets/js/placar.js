@@ -2,12 +2,10 @@ $("#btnMostrarPlacar").click(function() {
     $("#placar").stop().slideToggle(500);
 });
 
-function dadosPlacar() {
-    let qtdPalavrasPlacar = $("#contadorPalavras").text();
-    let usuarioJogo = $("#usuario").val();
+function dadosPlacar(palavras, usuario) {
     // console.log(qtdPalavrasPlacar);
     // console.log(usuarioJogo);
-    let linhaTabela = criarLinha(usuarioJogo, qtdPalavrasPlacar);
+    let linhaTabela = criarLinha(usuario, palavras);
     linhaTabela.find(".btn-remover").click(removerLinha);
     console.log(linhaTabela);
     $("#dadosInserido").append(linhaTabela);
